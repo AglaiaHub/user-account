@@ -6,7 +6,6 @@ import java51.useraccount.dto.RoleDto;
 import java51.useraccount.dto.UpdateUserDto;
 import java51.useraccount.dto.UserDto;
 import java51.useraccount.dto.exception.UserNotFoundException;
-import java51.useraccount.model.Role;
 import java51.useraccount.model.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
