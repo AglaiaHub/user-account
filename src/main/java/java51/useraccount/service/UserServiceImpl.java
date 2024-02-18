@@ -20,6 +20,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto registerUser(NewUserDto newUserDto) {
+        if (userRepository.existsById(newUserDto.getLogin())) {
+            throw new UserNotFoundException();
+        }
         User user = modelMapper.map(newUserDto, User.class);
         String password = BCrypt.hashpw(newUserDto.getPassword(), BCrypt.gensalt());
         user.setPassword(password);
