@@ -14,9 +14,8 @@ import java.util.Set;
 
 public class User {
     @Id
-    String login;
     @Setter
-    String baseUrl;
+    String login;
     @Setter
     String password;
     @Setter
@@ -31,6 +30,7 @@ public class User {
     }
 
     public User(String login, String password, String firstName, String lastName){
+        this();
         this.login = login;
         this.password = password;
         this.firstName = firstName;

@@ -7,16 +7,18 @@ import java51.useraccount.dto.UserDto;
 
 public interface UserService {
 
-    UserDto registerUser (String baseUrl, NewUserDto newUserDto);
+    UserDto registerUser (NewUserDto newUserDto);
 
-    UserDto deleteUser (String baseUrl, String login);
+    UserDto deleteUser (String login);
 
-    UserDto updateUser (String baseUrl, String login, UpdateUserDto updateUserDto);
+    UserDto updateUser (String login, UpdateUserDto updateUserDto);
 
-    UserDto getUser (String baseUrl, String login);
+    UserDto getUser (String login);
 
-    RoleDto addRole (String baseUrl, String login, String role);
+    RoleDto addRole (String login, String role);
 
-    RoleDto deleteRole (String baseUrl, String login, String role);
+    RoleDto deleteRole (String login, String role);
+
+    void changePassword (String login, String newPassword);
 
 }

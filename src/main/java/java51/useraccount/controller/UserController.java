@@ -8,38 +8,48 @@ import java51.useraccount.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Base64;
+
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/account")
 public class UserController {
     final UserService userService;
 
-    @PostMapping("{baseUrl}/register")
-    public UserDto registerUser(@PathVariable String baseUrl, @RequestBody NewUserDto newUserDto) {
-        return userService.registerUser(baseUrl, newUserDto);
+    @PostMapping("/register")
+    public UserDto registerUser(@RequestBody NewUserDto newUserDto) {
+        return userService.registerUser(newUserDto);
     }
 
-    @DeleteMapping("{baseUrl}/user/{user}")
-    public UserDto deleteUser(@PathVariable String baseUrl, @PathVariable("user") String login) {
-        return userService.deleteUser(baseUrl, login);
+    @PostMapping("/login")
+    public UserDto login(@RequestHeader("Authorization")  String token){
+        token = token.split(" ")[1];
+        String credentionals = new String(Base64.getDecoder().decode(token));
+        return userService.getUser(credentionals.split(":")[0]);
     }
 
-    @PutMapping("{baseUrl}/user/{user}")
-    public UserDto updateUser(@PathVariable String baseUrl, @PathVariable("user") String login, @RequestBody UpdateUserDto updateUserDto) {
-        return userService.updateUser(baseUrl, login, updateUserDto);
+    @DeleteMapping("/user/{login}")
+    public UserDto deleteUser(@PathVariable("login") String login) {
+        return userService.deleteUser(login);
     }
 
-    @GetMapping ("{baseUrl}/user/{user}")
-    public UserDto getUser(@PathVariable String baseUrl, @PathVariable("user") String login) {
-        return userService.getUser(baseUrl, login);
+    @PutMapping("/user/{user}")
+    public UserDto updateUser(@PathVariable("user") String login, @RequestBody UpdateUserDto updateUserDto) {
+        return userService.updateUser(login, updateUserDto);
     }
 
-    @PutMapping ("{baseUrl}/user/{user}/role/{role}")
-    public RoleDto addRole(@PathVariable String baseUrl, @PathVariable("user") String login, @PathVariable String role) {
-        return userService.addRole(baseUrl, login, role);
+    @GetMapping ("/user/{user}")
+    public UserDto getUser(@PathVariable("user") String login) {
+        return userService.getUser(login);
     }
 
-    @DeleteMapping("{baseUrl}/user/{user}/role/{role}")
-    public RoleDto deleteRole(@PathVariable String baseUrl, @PathVariable("user") String login, @PathVariable String role) {
-        return userService.deleteRole(baseUrl, login, role);
+    @PutMapping ("/user/{user}/role/{role}")
+    public RoleDto addRole(@PathVariable("user") String login, @PathVariable String role) {
+        return userService.addRole(login, role);
+    }
+
+    @DeleteMapping("/user/{user}/role/{role}")
+    public RoleDto deleteRole(@PathVariable("user") String login, @PathVariable String role) {
+        return userService.deleteRole(login, role);
     }
 }
